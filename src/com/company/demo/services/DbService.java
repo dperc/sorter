@@ -49,7 +49,7 @@ public class DbService {
         try {
             dbConnection = DriverManager.getConnection(URL, user, PASSWORD);
         } catch (SQLException e) {
-            logger.error("Database connection failed. {}", e);
+            logger.error("Database connection failed.", e);
         }
 
         for(DataObject dataObject : listOfData) {
@@ -66,6 +66,14 @@ public class DbService {
 
             } catch (SQLException ex) {
                 logger.error("Error inserting data: {}  into table.", dataObject.toString(),  ex);
+            }
+        }
+
+        if(dbConnection != null) {
+            try {
+                dbConnection.close();
+            } catch (SQLException e) {
+                logger.error("Could not close database connection.", e);
             }
         }
     }
